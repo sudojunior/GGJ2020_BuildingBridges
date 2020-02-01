@@ -18,12 +18,15 @@ public class PlayerMovement : MonoBehaviour
     private Vector3[] directionsToCheck;
     [SerializeField]
     private float checkDistance;
+    [SerializeField]
+    private float groundCheckDistance;
 
     [SerializeField]
     private float moveDelay;
 
     [SerializeField]
-    private LayerMask groundMask;
+    private LayerMask maskCheck;
+    [Space]
 
     [Header("Rotation")]
     [SerializeField]
@@ -67,15 +70,47 @@ public class PlayerMovement : MonoBehaviour
     private void InvokePosition(Vector3 currentPosition)
     {
         nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z + (snapValue * -moveX));
-        
-        Vector3 direction = new Vector3(moveZ, 0, -moveX);
-
-        if (!Physics.Raycast(nextPosition, -Vector3.up, checkDistance, groundMask)) return;
+        Vector3 direction = new Vector3(moveZ, 0, -moveX);  
 
         for (int i = 0; i < directionsToCheck.Length; i++)
         {
-            if (Physics.Raycast(nextPosition, directionsToCheck[i], checkDistance, groundMask)) return;
+            RaycastHit hit;
+
+            if (Physics.Raycast(nextPosition, transform.fo, out hit, checkDistance, maskCheck))
+            {
+                if (hit.collider.GetComponent<Ladder>() != null)
+                {
+                    Debug.Log("Ladder");
+                    nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ * 2f), currentPosition.y + 2f, currentPosition.z + (snapValue * -moveX * 2f));
+                    if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+                    moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                    return;
+                }
+
+                else
+                {                  
+                    return;
+                }
+            }
         }
+
+        RaycastHit belowHit;
+        if (Physics.Raycast(nextPosition, -Vector3.up, out belowHit, groundCheckDistance, maskCheck))
+        {
+            if (belowHit.collider.GetComponent<Ladder>() != null)
+            {
+                nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ * 2f), belowHit.point.y, currentPosition.z + (snapValue * -moveX * 2f));
+                if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                return;
+            }
+
+            else if (belowHit.collider == null)
+            {
+                return;
+            }
+        }
+
+        if (!Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance, maskCheck)) return;
 
         if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
         rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
@@ -118,19 +153,12 @@ public class PlayerMovement : MonoBehaviour
         moveZ = Input.GetAxisRaw(moveZName);
     }
 
-    private Vector3 RoundVector(Vector3 vector, float snap)
-    {
-        return new Vector3((vector.x / snap) * snap,
-                           (vector.y / snap) * snap,
-                           (vector.z / snap) * snap);
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         for (int i = 0; i < directionsToCheck.Length; i++)
         {
-            Gizmos.DrawRay(this.transform.position, directionsToCheck[i] * checkDistance);
+            Gizmos.DrawRay(nextPosition, directionsToCheck[i] * checkDistance);
         }
     }
 
