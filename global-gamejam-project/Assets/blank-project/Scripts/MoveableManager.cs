@@ -12,6 +12,11 @@ public class MoveableManager : MonoBehaviour
     private GameObject container;
     public GameObject holding;
 
+    [SerializeField]
+    private float rotationSnap = 90.0f;
+
+    private Coroutine rotateCoroutine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +26,8 @@ public class MoveableManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        // Space - Pickup / Drop
+        if(Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Key down", gameObject);
             if(holding == null)
@@ -32,6 +38,23 @@ public class MoveableManager : MonoBehaviour
             else if (!Physics.Raycast(transform.position, transform.forward, 2f))
             {
                 Drop();
+            }
+            return;
+        }
+
+        // Rotation
+        // Q - Left
+        // E - Right
+        if(holding != null)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                RotateObject(-rotationSnap);
+            }
+
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                RotateObject(rotationSnap);
             }
         }
     }
@@ -66,5 +89,33 @@ public class MoveableManager : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * 5f);
+    }
+
+    private void RotateObject(float rotateAmount)
+    {
+        if (rotateCoroutine == null)
+            rotateCoroutine = StartCoroutine(LerpRotateObject(rotateAmount, 5f));
+    }
+
+    // Y axis only
+    private IEnumerator LerpRotateObject(float rotateAmount, float rotateSpeed)
+    {
+        float t = 0;
+        Vector3 eulerAngles = holding.transform.eulerAngles;
+        Vector3 target = new Vector3(
+            eulerAngles.x,
+            eulerAngles.y + rotateAmount,
+            eulerAngles.z
+        );
+
+        while (t <= 1)
+        {
+            t += Time.deltaTime * rotateSpeed;
+            holding.transform.eulerAngles = Vector3.Lerp(eulerAngles, target, t);
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        rotateCoroutine = null;
     }
 }
