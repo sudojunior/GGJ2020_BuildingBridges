@@ -45,7 +45,9 @@ public class MoveableManager : MonoBehaviour
             if (hit.collider.GetComponent<MoveableObject>() != null)
             {
                 Debug.Log("Component", hit.collider.gameObject);
-                
+
+                hit.collider.GetComponent<Rigidbody>().isKinematic = true;
+
                 hit.transform.position = slot.transform.position;
                 hit.collider.transform.parent.SetParent(slot.transform);
                 holding = hit.collider.gameObject;
@@ -55,6 +57,7 @@ public class MoveableManager : MonoBehaviour
 
     void Drop()
     {
+        holding.GetComponent<Rigidbody>().isKinematic = false;
         Debug.Log(transform.forward);
         holding.transform.parent.SetParent(container.transform);
         holding.transform.position = transform.position + (transform.forward * 2);

@@ -87,9 +87,10 @@ public class PlayerMovement : MonoBehaviour
             rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
 
             RaycastHit hit;
-
             if (Physics.Raycast(rigidBody.position, direction, out hit, checkDistance, maskCheck))
             {
+                if (hit.collider.GetComponent<MoveableObject>() != null) return;
+
                 if (hit.collider.GetComponent<Ladder>() != null)
                 {
                     nextPosition = hit.transform.position;

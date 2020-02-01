@@ -806,7 +806,7 @@ MonoBehaviour:
   moveDelay: 0.1
   maskCheck:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1792
   rotateSpeed: 1.5
   moveXName: Horizontal
   moveZName: Vertical
@@ -1142,7 +1142,7 @@ PrefabInstance:
     - target: {fileID: 9202242036940918863, guid: 899319b7182a1b74bbf6d5984fa67a9c,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 791
+      value: 1815
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 899319b7182a1b74bbf6d5984fa67a9c, type: 3}
@@ -1262,6 +1262,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoveablePickup
       objectReference: {fileID: 0}
+    - target: {fileID: 2071302584712739705, guid: fd075f9870e8c9542885616bb496d7a6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8452351594339018765, guid: fd075f9870e8c9542885616bb496d7a6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1270,7 +1275,7 @@ PrefabInstance:
     - target: {fileID: 8452351594339018765, guid: fd075f9870e8c9542885616bb496d7a6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12
+      value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 8452351594339018765, guid: fd075f9870e8c9542885616bb496d7a6,
         type: 3}
@@ -1317,20 +1322,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6260396069377537235, guid: fd075f9870e8c9542885616bb496d7a6,
+    - target: {fileID: 1052204544194253026, guid: fd075f9870e8c9542885616bb496d7a6,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6260396069377537235, guid: fd075f9870e8c9542885616bb496d7a6,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6260396069377537235, guid: fd075f9870e8c9542885616bb496d7a6,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.5
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd075f9870e8c9542885616bb496d7a6, type: 3}
