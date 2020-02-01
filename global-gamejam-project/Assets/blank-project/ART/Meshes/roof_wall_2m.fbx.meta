@@ -4,11 +4,13 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: roof_wall_2m2
     400000: //RootNode
-    2100000: lambert1
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: roof_wall_2m
+    400002: roof_wall_2m2
+    2100000: lambert8
+    2300000: roof_wall_2m2
+    3300000: roof_wall_2m2
+    4300000: roof_wall_2m2
   externalObjects: {}
   materials:
     importMaterials: 1

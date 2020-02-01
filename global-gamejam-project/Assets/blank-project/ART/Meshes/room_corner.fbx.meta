@@ -3,12 +3,14 @@ guid: 767cb213d2f61cb46993f47e6568c384
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
+    100000: room_corner
+    100002: //RootNode
+    400000: room_corner
+    400002: //RootNode
     2100000: lambert1
     2100002: lambert6
-    2300000: //RootNode
-    3300000: //RootNode
+    2300000: room_corner
+    3300000: room_corner
     4300000: room_corner
   externalObjects: {}
   materials:

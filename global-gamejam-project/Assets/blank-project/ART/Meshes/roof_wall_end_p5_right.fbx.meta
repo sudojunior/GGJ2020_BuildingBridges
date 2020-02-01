@@ -3,11 +3,13 @@ guid: 90597d6b46589b0408b56295dc224ef3
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
+    100000: roof_wall_end_p5_right
+    100002: //RootNode
+    400000: roof_wall_end_p5_right
+    400002: //RootNode
     2100000: lambert1
-    2300000: //RootNode
-    3300000: //RootNode
+    2300000: roof_wall_end_p5_right
+    3300000: roof_wall_end_p5_right
     4300000: roof_wall_end_p5_right
   externalObjects: {}
   materials:
