@@ -36,13 +36,18 @@ public class MoveableManager : MonoBehaviour
 
     void Pickup()
     {
+        Debug.Log("Start raycast");
         RaycastHit hit;
-        if(Physics.Raycast(gameObject.transform.position, Vector3.forward, out hit, 5f))
+        if(Physics.Raycast(gameObject.transform.position, transform.forward, out hit, 5f))
         {
+            Debug.Log("Raycast", hit.collider.gameObject);
+
             if (hit.collider.GetComponent<MoveableObject>() != null)
             {
-                Debug.Log("Raycast", hit.collider.gameObject);
-                hit.collider.transform.SetParent(slot.transform);
+                Debug.Log("Component", hit.collider.gameObject);
+                
+                hit.transform.position = slot.transform.position;
+                hit.collider.transform.parent.SetParent(slot.transform);
                 holding = hit.collider.gameObject;
             }
         }
@@ -50,8 +55,15 @@ public class MoveableManager : MonoBehaviour
 
     void Drop()
     {
-        holding.transform.position = gameObject.transform.forward;
-        holding.transform.SetParent(container.transform);
+        Debug.Log(transform.forward);
+        holding.transform.parent.SetParent(container.transform);
+        holding.transform.position = transform.position + (transform.forward * 2);
         holding = null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(transform.position, transform.forward * 5f);
     }
 }
