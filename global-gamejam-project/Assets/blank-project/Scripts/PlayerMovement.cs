@@ -70,32 +70,30 @@ public class PlayerMovement : MonoBehaviour
     private void InvokePosition(Vector3 currentPosition)
     {
         nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z + (snapValue * -moveX));
-        Vector3 direction = new Vector3(moveZ, 0, -moveX);  
+        Vector3 direction = new Vector3(moveZ, 0, -moveX);
+        
+        RaycastHit hit;
 
-        for (int i = 0; i < directionsToCheck.Length; i++)
+        if (Physics.Raycast(nextPosition, direction, out hit, checkDistance, maskCheck))
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(nextPosition, directionsToCheck[i], out hit, checkDistance, maskCheck))
+            if (hit.collider.GetComponent<Ladder>() != null)
             {
-                if (hit.collider.GetComponent<Ladder>() != null)
-                {
-                    Debug.Log("Ladder");
-                    nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ * 2f), currentPosition.y + 2f, currentPosition.z + (snapValue * -moveX * 2f));
-                    if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-                    moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
-                    return;
-                }
+                Debug.Log("Ladder");
+                nextPosition = hit.transform.position;
+                nextPosition.y += 2f;
+                if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+                moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                return;
+            }
 
-                else
-                {                  
-                    return;
-                }
+            else
+            {
+                return;
             }
         }
 
         RaycastHit belowHit;
-        if (Physics.Raycast(nextPosition, -Vector3.up, out belowHit, groundCheckDistance, maskCheck))
+        if (Physics.Raycast(transform.position, -Vector3.up, out belowHit, groundCheckDistance, maskCheck))
         {
             if (belowHit.collider.GetComponent<Ladder>() != null)
             {
@@ -156,10 +154,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        for (int i = 0; i < directionsToCheck.Length; i++)
-        {
-            Gizmos.DrawRay(nextPosition, directionsToCheck[i] * checkDistance);
-        }
+        Gizmos.DrawRay(transform.position, transform.forward * checkDistance);
     }
 
 }
