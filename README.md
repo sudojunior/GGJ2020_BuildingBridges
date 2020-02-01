@@ -5,6 +5,7 @@
 WASD - Movement
 E/F/Space - Pickup / Drop Item
 
-## Puzzles
+## Additional notes
 
 Fuck puzzles...
+Fuck Fungus...
