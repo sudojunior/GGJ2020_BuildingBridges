@@ -639,15 +639,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-    name: Kyle
+    title: Dialogue One
     sentences:
-    - I was making good progress. Until now I was able to phase out the noise and
-      chaos around me.
-    - That's when I realised things were worse than I thought. Peering down to the
-      street below I saw the most surreal scene.
-    - 
-    - 
-    - 
+    - name: Lisa
+      sentence: Roy?
+      clip: {fileID: 0}
+    - name: Roy
+      sentence: Where are you?
+      clip: {fileID: 0}
+    - name: Lisa
+      sentence: I'm home. I'm scared, Roy. What do I do?
+      clip: {fileID: 0}
+    - name: Roy
+      sentence: Just... get to the roof. They said help will be coming.
+      clip: {fileID: 0}
+    - name: Lisa
+      sentence: Okay. I'll try...
+      clip: {fileID: 0}
 --- !u!1 &546771196
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,11 +710,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue:
-    name: Kyle
+    title: 
     sentences:
-    - I was making good progress....
-    - I could see the water rising....
-    - Call from Lisa... Come quickly, need you here - problem on her end.
+    - name: 
+      sentence: 
+      clip: {fileID: 0}
+    - name: 
+      sentence: 
+      clip: {fileID: 0}
+    - name: 
+      sentence: 
+      clip: {fileID: 0}
 --- !u!114 &546771199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2466,6 +2480,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueManager
       objectReference: {fileID: 0}
+    - target: {fileID: 1424719555647748843, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
+        type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 1702170967}
+    - target: {fileID: 1424719555647748843, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
+        type: 3}
+      propertyPath: dialogueText
+      value: 
+      objectReference: {fileID: 1829100991}
+    - target: {fileID: 1424719555647748843, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1774952203}
     - target: {fileID: 1424719555647748836, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2521,20 +2550,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1424719555647748843, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
-        type: 3}
-      propertyPath: nameText
-      value: 
-      objectReference: {fileID: 1702170967}
-    - target: {fileID: 1424719555647748843, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
-        type: 3}
-      propertyPath: dialogueText
-      value: 
-      objectReference: {fileID: 1829100991}
-    - target: {fileID: 1424719555647748843, guid: 7642fcaf64cb6d244ae45af816d8a4c7,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1774952203}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7642fcaf64cb6d244ae45af816d8a4c7, type: 3}

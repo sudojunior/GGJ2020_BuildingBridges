@@ -11,25 +11,25 @@ public class DialogueManager : MonoBehaviour
 
     public Animator animator;
 
-    private Queue<string> sentences;
+    private Queue<Sentences> sentences;
 
 
     void Start()
     {
-        sentences = new Queue<string>();
+        sentences = new Queue<Sentences>();
     }
 
     public void StartDialogue (Dialogue dialogue)
     {
-        Debug.Log("Starting conversation with " + dialogue.name);
+        Debug.Log("Starting conversation with " + dialogue.sentences[0].name);
 
         animator.SetBool("IsOpen", true);
 
-        nameText.text = dialogue.name;
+        nameText.text = dialogue.title;
 
         sentences.Clear();
 
-        foreach (string sentence in dialogue.sentences)
+        foreach (Sentences sentence in dialogue.sentences)
         {
             sentences.Enqueue(sentence);
         }
@@ -45,16 +45,17 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        string sentence = sentences.Dequeue();
+        Sentences sentence = sentences.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
 
     }
 
-    IEnumerator TypeSentence (string sentence)
+    IEnumerator TypeSentence (Sentences sentence)
     {
         dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        nameText.text = sentence.name;
+        foreach (char letter in sentence.sentence.ToCharArray())
         {
             dialogueText.text += letter;
             yield return null;

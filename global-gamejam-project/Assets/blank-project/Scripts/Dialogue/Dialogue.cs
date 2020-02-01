@@ -1,12 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+
+[Serializable]
+public struct Sentences
+{
+    public string name;
+    [TextArea(3, 10)]
+    public string sentence;
+    public AudioClip clip;
+}
 
 [System.Serializable]
 public class Dialogue
 {
-    public string name;
-
-    [TextArea(3, 10)]
-    public string[] sentences;
+    public string title;    
+    public Sentences[] sentences;
 }
