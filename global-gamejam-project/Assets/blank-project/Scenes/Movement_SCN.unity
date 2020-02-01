@@ -620,7 +620,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 1}
   - {x: 0, y: 0, z: -1}
   checkDistance: 1
-  groundCheckDistance: 2
+  groundCheckDistance: 3.5
   moveDelay: 0.1
   maskCheck:
     serializedVersion: 2

@@ -107,24 +107,22 @@ public class PlayerMovement : MonoBehaviour
             }
 
             RaycastHit belowHit;
-            if (Physics.Raycast(transform.position, -Vector3.up, out belowHit, groundCheckDistance, maskCheck))
+            if (Physics.Raycast(transform.position, -Vector3.up, out belowHit, 1f, maskCheck))
             {
                 if (belowHit.collider.GetComponent<Ladder>() != null)
                 {
                     if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                     return;
                 }
-
-                else if (belowHit.collider == null)
-                {
-                    return;
-                }
             }
 
-            if (!Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance, maskCheck)) return;
-
-            if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
-            rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+            if (Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance))
+            {
+                if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+                return;
+            }
+        
         }
     }
 
