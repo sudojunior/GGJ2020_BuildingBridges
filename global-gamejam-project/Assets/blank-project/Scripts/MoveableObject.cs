@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class MoveableObject : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Vector3 defaultPosition;
+    public Quaternion defaultRotation;
 
- 
+    private void Start()
+    {
+        defaultPosition = this.transform.position;
+        defaultRotation = this.transform.rotation;
     }
 }

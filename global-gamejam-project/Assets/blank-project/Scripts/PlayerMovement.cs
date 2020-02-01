@@ -2,6 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(MoveableManager))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Physics")]
@@ -41,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     private string moveZName;
     private float moveZ;
 
+    [Header("Holding")]
+    private MoveableManager moveableManager;
+
     [Header("Coroutines")]
     private Coroutine moveCoroutine;
     private Coroutine rotateCoroutine;
@@ -52,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rigidBody = this.GetComponent<Rigidbody>();
+        moveableManager = this.GetComponent<MoveableManager>();
+
         onPlayerMove += InvokePosition;
     }
 
@@ -91,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (hit.collider.GetComponent<MoveableObject>() != null) return;
 
-                if (hit.collider.GetComponent<Ladder>() != null)
+                if (hit.collider.GetComponent<Ladder>() != null && moveableManager.holding == null)
                 {
                     nextPosition = hit.transform.position;
                     nextPosition.y += 2f;
