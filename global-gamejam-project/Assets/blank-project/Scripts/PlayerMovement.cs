@@ -71,18 +71,20 @@ public class PlayerMovement : MonoBehaviour
     {
         nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z + (snapValue * -moveX));
         Vector3 direction = new Vector3(moveZ, 0, -moveX);
-        
+        rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+
         RaycastHit hit;
 
-        if (Physics.Raycast(nextPosition, direction, out hit, checkDistance, maskCheck))
+        if (Physics.Raycast(rigidBody.position, direction, out hit, checkDistance, maskCheck))
         {
             if (hit.collider.GetComponent<Ladder>() != null)
             {
-                Debug.Log("Ladder");
                 nextPosition = hit.transform.position;
                 nextPosition.y += 2f;
+
                 if (moveCoroutine != null) StopCoroutine(moveCoroutine);
                 moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                
                 return;
             }
 
@@ -97,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (belowHit.collider.GetComponent<Ladder>() != null)
             {
-                nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ * 2f), belowHit.point.y, currentPosition.z + (snapValue * -moveX * 2f));
                 if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                 return;
             }
