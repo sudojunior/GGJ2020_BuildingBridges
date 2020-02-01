@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
                 nextPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z + (snapValue * -moveX));
                 direction = new Vector3(0, 0, -moveX);
             }
+
             else if (moveZ != 0)
             {
                 nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z);
@@ -117,6 +118,16 @@ public class PlayerMovement : MonoBehaviour
             }
 
             if (Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance))
+            {
+                if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+                return;
+            }
+
+            nextPosition.x += 1 * moveZ;
+            nextPosition.z += 1 * moveX;
+
+            if (Physics.Raycast(nextPosition, -Vector3.up, 1f))
             {
                 if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                 rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
