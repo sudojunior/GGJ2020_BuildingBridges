@@ -21,10 +21,13 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField]
     private float moveDelay;
-    private Coroutine moveCoroutine;
 
     [SerializeField]
     private LayerMask groundMask;
+
+    [Header("Rotation")]
+    [SerializeField]
+    private float rotateSpeed;
 
     [Header("Input")]
     [SerializeField]
@@ -33,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private string moveZName;
     private float moveZ;
+
+    [Header("Coroutines")]
+    private Coroutine moveCoroutine;
+    private Coroutine rotateCoroutine;
 
     public delegate void OnPlayerMove(Vector3 currentPosition);
     public event OnPlayerMove onPlayerMove;
@@ -60,6 +67,9 @@ public class PlayerMovement : MonoBehaviour
     private void InvokePosition(Vector3 currentPosition)
     {
         nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z + (snapValue * -moveX));
+        
+        Vector3 direction = new Vector3(moveZ, 0, -moveX);
+
         if (!Physics.Raycast(nextPosition, -Vector3.up, checkDistance, groundMask)) return;
 
         for (int i = 0; i < directionsToCheck.Length; i++)
@@ -68,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+        if (rotateCoroutine == null) rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
     }
 
     private IEnumerator MovePosition(Vector3 nextPosition, float moveDelay)
@@ -77,13 +88,29 @@ public class PlayerMovement : MonoBehaviour
         {
             t += Time.deltaTime * movementSpeed;
             rigidBody.position = Vector3.Lerp(rigidBody.position, nextPosition, t);
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
 
         rigidBody.position = nextPosition;
 
         yield return new WaitForSeconds(moveDelay);
         moveCoroutine = null;
+    }
+
+    private IEnumerator AimPlayer(Vector3 direction, float rotateSpeed)
+    {
+        float t = 0;
+        while (t <= .8f)
+        {
+            t += Time.deltaTime * rotateSpeed;
+            rigidBody.transform.forward = Vector3.Lerp(rigidBody.transform.forward, direction, t);
+            yield return new WaitForFixedUpdate();
+        }
+
+
+        rigidBody.transform.forward = direction;
+        rotateCoroutine = null;
+        yield return null;
     }
 
     private void GetPlayerInput()
