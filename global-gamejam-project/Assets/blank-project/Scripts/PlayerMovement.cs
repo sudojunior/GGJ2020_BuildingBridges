@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         {
             RaycastHit hit;
 
-            if (Physics.Raycast(nextPosition, transform.fo, out hit, checkDistance, maskCheck))
+            if (Physics.Raycast(nextPosition, directionsToCheck[i], out hit, checkDistance, maskCheck))
             {
                 if (hit.collider.GetComponent<Ladder>() != null)
                 {
