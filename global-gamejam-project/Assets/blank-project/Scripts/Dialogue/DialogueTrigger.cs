@@ -6,8 +6,15 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
 
-    public void TriggerDialogue()
+    void OnTriggerEnter(Collider other)
     {
+        TriggerDialogue();
+        Destroy(this.gameObject);
+    }
+
+    public void TriggerDialogue()
+    {   
+        Debug.Log("Dialogue has started");
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
     }
 }
