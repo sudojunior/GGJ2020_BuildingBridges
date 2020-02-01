@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float snapValue;
     private Vector3 nextPosition;
+    private Vector3 direction;
 
     [SerializeField]
     private Vector3[] directionsToCheck;
@@ -69,50 +70,62 @@ public class PlayerMovement : MonoBehaviour
 
     private void InvokePosition(Vector3 currentPosition)
     {
-        nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z + (snapValue * -moveX));
-        Vector3 direction = new Vector3(moveZ, 0, -moveX);
-        rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(rigidBody.position, direction, out hit, checkDistance, maskCheck))
+        if (rigidBody.velocity.y == 0)
         {
-            if (hit.collider.GetComponent<Ladder>() != null)
+            if (moveX != 0)
             {
-                nextPosition = hit.transform.position;
-                nextPosition.y += 2f;
-
-                if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-                moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
-                
-                return;
+                nextPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z + (snapValue * -moveX));
+                direction = new Vector3(0, 0, -moveX);
+            }
+            else if (moveZ != 0)
+            {
+                nextPosition = new Vector3(currentPosition.x + (snapValue * moveZ), currentPosition.y, currentPosition.z);
+                direction = new Vector3(moveZ, 0, 0);
             }
 
-            else
+            rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(rigidBody.position, direction, out hit, checkDistance, maskCheck))
             {
-                return;
+                if (hit.collider.GetComponent<Ladder>() != null)
+                {
+                    nextPosition = hit.transform.position;
+                    nextPosition.y += 2f;
+
+                    if (moveCoroutine != null) StopCoroutine(moveCoroutine);
+                    moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+
+                    return;
+                }
+
+                else
+                {
+                    return;
+                }
             }
+
+            RaycastHit belowHit;
+            if (Physics.Raycast(transform.position, -Vector3.up, out belowHit, groundCheckDistance, maskCheck))
+            {
+                if (belowHit.collider.GetComponent<Ladder>() != null)
+                {
+                    if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                    return;
+                }
+
+                else if (belowHit.collider == null)
+                {
+                    return;
+                }
+            }
+
+            if (!Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance, maskCheck)) return;
+
+            if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+            rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
         }
-
-        RaycastHit belowHit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out belowHit, groundCheckDistance, maskCheck))
-        {
-            if (belowHit.collider.GetComponent<Ladder>() != null)
-            {
-                if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
-                return;
-            }
-
-            else if (belowHit.collider == null)
-            {
-                return;
-            }
-        }
-
-        if (!Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance, maskCheck)) return;
-
-        if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
-        rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
     }
 
     private IEnumerator MovePosition(Vector3 nextPosition, float moveDelay)
