@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
-        if (rotateCoroutine == null) rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+        rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
     }
 
     private IEnumerator MovePosition(Vector3 nextPosition, float moveDelay)
@@ -100,14 +100,13 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator AimPlayer(Vector3 direction, float rotateSpeed)
     {
         float t = 0;
-        while (t <= .8f)
+        while (t <= 1)
         {
             t += Time.deltaTime * rotateSpeed;
-            rigidBody.transform.forward = Vector3.Lerp(rigidBody.transform.forward, direction, t);
+            rigidBody.transform.forward = Vector3.Slerp(rigidBody.transform.forward, direction, t);
             yield return new WaitForFixedUpdate();
         }
-
-
+      
         rigidBody.transform.forward = direction;
         rotateCoroutine = null;
         yield return null;
