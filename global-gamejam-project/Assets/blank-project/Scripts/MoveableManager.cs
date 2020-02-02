@@ -29,7 +29,6 @@ public class MoveableManager : MonoBehaviour
         // Space - Pickup / Drop
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.Log("Key down", gameObject);
             if(holding == null)
             {
                 Pickup();
@@ -70,7 +69,7 @@ public class MoveableManager : MonoBehaviour
                 hit.transform.rotation = hit.collider.GetComponent<MoveableObject>().defaultRotation;
 
                 hit.transform.position = slot.transform.position;
-                hit.collider.transform.parent.SetParent(slot.transform);
+                hit.collider.transform.SetParent(slot.transform);
                 holding = hit.collider.gameObject;
             }
         }
@@ -79,8 +78,7 @@ public class MoveableManager : MonoBehaviour
     void Drop()
     {
         holding.GetComponent<Rigidbody>().isKinematic = false;
-        Debug.Log(transform.forward);
-        holding.transform.parent.SetParent(container.transform);
+        holding.transform.SetParent(container.transform);
         holding.transform.position = transform.position + (transform.forward * 2);
         holding = null;
     }

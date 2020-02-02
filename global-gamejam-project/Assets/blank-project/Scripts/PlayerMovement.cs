@@ -169,7 +169,7 @@ public class PlayerMovement : MonoBehaviour
             rigidBody.transform.forward = Vector3.Slerp(rigidBody.transform.forward, direction, t);
             yield return new WaitForFixedUpdate();
         }
-      
+       
         rigidBody.transform.forward = direction;
         rotateCoroutine = null;
         yield return null;
