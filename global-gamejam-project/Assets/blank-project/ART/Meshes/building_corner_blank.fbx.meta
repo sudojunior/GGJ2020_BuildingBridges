@@ -1,21 +1,18 @@
 fileFormatVersion: 2
-guid: 4fa216ba37135f143816220fd8f58384
+guid: 2a5a0d75c335a0f4eab571a9585fc3bb
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: building_wall
+    100000: building_corner_blank
     100002: //RootNode
     100004: group2
-    400000: building_wall
+    400000: building_corner_blank
     400002: //RootNode
     400004: group2
     2100000: lambert3
-    2100002: lambert1
-    2100004: lambert74
-    2100006: lambert75
-    2300000: building_wall
-    3300000: building_wall
-    4300000: building_wall
+    2300000: building_corner_blank
+    3300000: building_corner_blank
+    4300000: building_corner_blank
   externalObjects: {}
   materials:
     importMaterials: 1
