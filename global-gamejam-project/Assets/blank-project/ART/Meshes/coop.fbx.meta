@@ -1,21 +1,15 @@
 fileFormatVersion: 2
-guid: 4fa216ba37135f143816220fd8f58384
+guid: 408dbde1e680b2a49ad2d171c55496a4
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: building_wall
-    100002: //RootNode
-    100004: group2
-    400000: building_wall
-    400002: //RootNode
-    400004: group2
-    2100000: lambert3
+    100000: //RootNode
+    400000: //RootNode
+    2100000: lambert5
     2100002: lambert1
-    2100004: lambert74
-    2100006: lambert75
-    2300000: building_wall
-    3300000: building_wall
-    4300000: building_wall
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: coop
   externalObjects: {}
   materials:
     importMaterials: 1

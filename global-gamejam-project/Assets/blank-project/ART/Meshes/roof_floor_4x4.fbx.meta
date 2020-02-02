@@ -4,10 +4,16 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
+    100002: group2
+    100004: roof_floor_4x4
     400000: //RootNode
+    400002: group2
+    400004: roof_floor_4x4
     2100000: lambert1
     2300000: //RootNode
+    2300002: roof_floor_4x4
     3300000: //RootNode
+    3300002: roof_floor_4x4
     4300000: roof_floor_4x4
   externalObjects: {}
   materials:
