@@ -7,9 +7,15 @@ public class MoveableObject : MonoBehaviour
     public Vector3 defaultPosition;
     public Quaternion defaultRotation;
 
-    private void Start()
+    public virtual void Start()
     {
         defaultPosition = this.transform.position;
         defaultRotation = this.transform.rotation;
+    }
+
+    public void ResetState()
+    {
+        this.transform.position = defaultPosition;
+        this.transform.rotation = defaultRotation;
     }
 }

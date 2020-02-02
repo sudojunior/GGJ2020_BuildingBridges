@@ -6,8 +6,9 @@ public class Ladder : MoveableObject
 
     private Rigidbody rigidBody;
 
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         rigidBody = this.GetComponent<Rigidbody>();
     }
 
