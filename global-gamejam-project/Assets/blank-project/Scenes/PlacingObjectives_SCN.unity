@@ -1996,17 +1996,17 @@ PrefabInstance:
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.93
+      value: -27.8
       objectReference: {fileID: 0}
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15
+      value: 25.5
       objectReference: {fileID: 0}
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.25
+      value: -28.1
       objectReference: {fileID: 0}
     - target: {fileID: 7646546087402909047, guid: b078d57f57397ec48952b0a7425e1a34,
         type: 3}
@@ -2062,6 +2062,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ClearFlags
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6717407300474709608, guid: b078d57f57397ec48952b0a7425e1a34,
+        type: 3}
+      propertyPath: m_RenderingPath
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b078d57f57397ec48952b0a7425e1a34, type: 3}
@@ -2226,6 +2231,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618622116}
   m_CullTransparentMesh: 0
+--- !u!1 &1676862250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5650381664986817108, guid: b078d57f57397ec48952b0a7425e1a34,
+    type: 3}
+  m_PrefabInstance: {fileID: 1250377467}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1676862251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676862250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab771071be9a4764ba971d3e72385369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 733798811}
+  speed: 1.25
 --- !u!1 &1702170965
 GameObject:
   m_ObjectHideFlags: 0
@@ -3734,7 +3759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1052204543516215007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 14.18, z: 6}
+  m_LocalPosition: {x: 0, y: 14.18, z: 7}
   m_LocalScale: {x: 1, y: 0.5, z: 3}
   m_Children: []
   m_Father: {fileID: 1116082304}
