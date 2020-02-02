@@ -13,22 +13,14 @@ RoySource's Building Bridges game for Global Game Jam 2020.
 
 |              Programmer               |           Artist            |           Designer           |     Writer     |             Audio              |
 | ------------------------------------- | --------------------------- | ---------------------------- | -------------- | ------------------------------ |
-| [Christopher Robertson](chris-github) | [Tom Copp](tomc-artstation) | [Elise Dennis](elise-github) | Andrew Shawley | [Tom Trathen](tomt-soundcloud) |
-| [Morgan Penrose](morgan-github)       | Kate Hookham                | Danielius Mileris            | Joesph Dunn    |                                |
+| [Christopher Robertson](https://github.com/Koltonix) | [Tom Copp](https://www.artstation.com/thomascopp) | [Elise Dennis](elise-github) | Andrew Shawley | [Tom Trathen](https://soundcloud.com/strawberrynooc) |
+| [Morgan Penrose](https://github.com/PlayTheFallen)       | Kate Hookham                | Danielius Mileris            | Joesph Dunn    |                                |
 |                                       | Daniel Truman               |                              |                |                                |
-|                                       |                             |                              |                |                                |
 
 ![Team Photo](./assets/TeamPhoto.jpg)
 
 ## Controls
 
-- <kbt>WASD</kbt> - Movement
-- <kbt>Space</kbt> - Pickup / Drop Object
-- <kbt>Q</kbt> / <kbt>E</kbt> - Object Rotation (Left / Right)
-
-<!-- Link refs -->
-[chris-github]: https://github.com/Koltonix
-[morgan-github]: https://github.com/PlayTheFallen
-[elise-github]: https://github.com/Mistiare
-[tomc-artstation]: https://www.artstation.com/thomascopp
-[tomt-soundcloud]: https://soundcloud.com/strawberrynooc
+- WASD - Movement
+- Space - Pickup / Drop Object
+- Q / E - Object Rotation (Left / Right)
