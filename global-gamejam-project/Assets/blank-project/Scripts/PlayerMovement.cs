@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private float snapValue;
     private Vector3 nextPosition;
     private Vector3 direction;
+    [SerializeField]
+    private float ladderHeight;
 
     [SerializeField]
     private Vector3[] directionsToCheck;
@@ -93,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
             }
 
             nextPosition = RoundVector(nextPosition, snapValue);
-
             rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
 
             RaycastHit hit;
@@ -103,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
                 if (hit.collider.GetComponent<Ladder>() != null && moveableManager.holding == null)
                 {
                     nextPosition = hit.transform.position;
-                    nextPosition.y += 2f;
+                    nextPosition.y = rigidBody.position.y + ladderHeight;
 
                     if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                     rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
