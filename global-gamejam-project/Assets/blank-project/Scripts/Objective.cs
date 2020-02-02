@@ -53,8 +53,6 @@ public class Objective : MonoBehaviour
                 return objectives[i];
             }
         }
-
-        Debug.Log("Running");
         return null;
     }
 }
