@@ -15,6 +15,7 @@ public class MoveableManager : MonoBehaviour
     [SerializeField]
     private float rotationSnap = 90.0f;
 
+    private Coroutine moveCoroutine;
     private Coroutine rotateCoroutine;
 
     private PlayerMovement playerMovement;
@@ -68,9 +69,10 @@ public class MoveableManager : MonoBehaviour
             if (hit.collider.GetComponent<MoveableObject>() != null)
             {
                 hit.collider.GetComponent<Rigidbody>().isKinematic = true;
-                hit.transform.rotation = hit.collider.GetComponent<MoveableObject>().defaultRotation;
+                MoveableObject MO_Component = hit.collider.GetComponent<MoveableObject>();
+                moveCoroutine = StartCoroutine(LerpPosition(hit.collider.gameObject, slot.transform.position, 5f));
 
-                hit.transform.position = slot.transform.position;
+                // hit.transform.position = slot.transform.position;
                 hit.collider.transform.SetParent(slot.transform);
                 holding = hit.collider.gameObject;
             }
@@ -80,12 +82,26 @@ public class MoveableManager : MonoBehaviour
     void Drop()
     {
         holding.GetComponent<Rigidbody>().isKinematic = false;
-        
-        holding.transform.position = transform.position + (transform.forward * 2);
-        holding.transform.position = playerMovement.RoundVector(holding.transform.position, playerMovement.snapValue);
+
+        moveCoroutine = StartCoroutine(LerpPosition(holding, transform.position + (transform.forward * 2), 5f));
 
         holding.transform.SetParent(container.transform);
+
         holding = null;
+    }
+
+    private IEnumerator LerpPosition(GameObject target, Vector3 destination, float moveSpeed)
+    {
+        float t = 0;
+        while (t <= 1)
+        {
+            t += Time.deltaTime * moveSpeed;
+            target.transform.position = Vector3.Lerp(target.transform.position, destination, t);
+            yield return new WaitForFixedUpdate();
+        }
+        target.transform.position = playerMovement.RoundVector(destination, playerMovement.snapValue);
+        yield return null;
+        moveCoroutine = null;
     }
 
     private void OnDrawGizmos()
@@ -115,6 +131,20 @@ public class MoveableManager : MonoBehaviour
         {
             t += Time.deltaTime * rotateSpeed;
             holding.transform.eulerAngles = Vector3.Lerp(eulerAngles, target, t);
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        rotateCoroutine = null;
+    }
+
+    private IEnumerator LerpRotateObject(GameObject target, Vector3 eulerAngles, float rotateSpeed)
+    {
+        float t = 0;
+        while(t <= 1)
+        {
+            t += Time.deltaTime * rotateSpeed;
+            holding.transform.eulerAngles = Vector3.Slerp(target.transform.eulerAngles, eulerAngles, t);
             yield return new WaitForFixedUpdate();
         }
 
