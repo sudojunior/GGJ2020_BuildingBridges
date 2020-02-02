@@ -105,8 +105,8 @@ public class PlayerMovement : MonoBehaviour
                     nextPosition = hit.transform.position;
                     nextPosition.y += 2f;
 
-                    if (moveCoroutine != null) StopCoroutine(moveCoroutine);
-                    moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                    if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
+                    rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
 
                     return;
                 }
@@ -125,7 +125,6 @@ public class PlayerMovement : MonoBehaviour
                 //Ladder movement down
                 if (belowHit.collider.GetComponent<Ladder>() != null)
                 {
-                    Debug.Log("Ladder Below");
                     if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                     return;
                 }
