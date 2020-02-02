@@ -78,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rigidBody.velocity.y == 0)
         {
+            rigidBody.isKinematic = true;
+
             if (moveX != 0)
             {
                 nextPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z + (snapValue * -moveX));
@@ -90,13 +92,14 @@ public class PlayerMovement : MonoBehaviour
                 direction = new Vector3(moveZ, 0, 0);
             }
 
+            nextPosition = RoundVector(nextPosition, snapValue);
+
             rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
 
             RaycastHit hit;
             if (Physics.Raycast(rigidBody.position, direction, out hit, checkDistance, maskCheck))
             {
-                if (hit.collider.GetComponent<MoveableObject>() != null) return;
-
+                //Ladder movement up
                 if (hit.collider.GetComponent<Ladder>() != null && moveableManager.holding == null)
                 {
                     nextPosition = hit.transform.position;
@@ -108,6 +111,8 @@ public class PlayerMovement : MonoBehaviour
                     return;
                 }
 
+                if (hit.collider.GetComponent<MoveableObject>() != null) return;
+
                 else
                 {
                     return;
@@ -117,25 +122,38 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit belowHit;
             if (Physics.Raycast(transform.position, -Vector3.up, out belowHit, 1f, maskCheck))
             {
+                //Ladder movement down
                 if (belowHit.collider.GetComponent<Ladder>() != null)
                 {
+                    Debug.Log("Ladder Below");
                     if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                     return;
                 }
             }
 
-            if (Physics.Raycast(nextPosition, -Vector3.up, groundCheckDistance))
+            RaycastHit genericHit;
+            //Regular movement
+            if (Physics.Raycast(nextPosition, -Vector3.up, out genericHit, groundCheckDistance, maskCheck))
             {
                 if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                 rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
+
+                if (Vector3.Distance(genericHit.point, rigidBody.position) >=  1.5f)
+                {
+                    rigidBody.isKinematic = false;
+                }  
+
                 return;
             }
+
+
+            rigidBody.isKinematic = false;
 
             nextPosition.x += 1 * moveZ;
             nextPosition.z += 1 * moveX;
 
             if (Physics.Raycast(nextPosition, -Vector3.up, 1f))
-            {
+            { 
                 if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                 rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));
                 return;
@@ -169,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
             rigidBody.transform.forward = Vector3.Slerp(rigidBody.transform.forward, direction, t);
             yield return new WaitForFixedUpdate();
         }
-      
+       
         rigidBody.transform.forward = direction;
         rotateCoroutine = null;
         yield return null;
@@ -181,10 +199,18 @@ public class PlayerMovement : MonoBehaviour
         moveZ = Input.GetAxisRaw(moveZName);
     }
 
+    private Vector3 RoundVector(Vector3 vector, float snap)
+    {
+        return new Vector3((vector.x / snap) * snap,
+                           (vector.y / snap) * snap,
+                           (vector.z / snap) * snap);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * checkDistance);
+        Gizmos.DrawRay(nextPosition, -Vector3.up * groundCheckDistance);
     }
 
 }

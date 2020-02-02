@@ -1,20 +1,18 @@
 fileFormatVersion: 2
-guid: b848e373fc1376f4096bbc2b87260886
+guid: 045dd8439e40a5b4c9f26d52b6dfd721
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: group2
-    100004: roof_floor_4x4
-    400000: //RootNode
-    400002: group2
-    400004: roof_floor_4x4
-    2100000: lambert1
-    2300000: //RootNode
-    2300002: roof_floor_4x4
-    3300000: //RootNode
-    3300002: roof_floor_4x4
-    4300000: roof_floor_4x4
+    100000: group2
+    100002: ladder_2m
+    100004: //RootNode
+    400000: group2
+    400002: ladder_2m
+    400004: //RootNode
+    2100000: box16
+    2300000: ladder_2m
+    3300000: ladder_2m
+    4300000: ladder_2m
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
