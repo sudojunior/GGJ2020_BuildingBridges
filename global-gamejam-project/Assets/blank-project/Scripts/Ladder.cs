@@ -1,18 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Ladder : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class Ladder : MoveableObject
 {
-    // Start is called before the first frame update
-    void Start()
+
+    private Rigidbody rigidBody;
+
+    private void Start()
     {
-        
+        rigidBody = this.GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnCollisionEnter(Collision col)
+    { 
+        rigidBody.isKinematic = true;        
     }
 }

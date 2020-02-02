@@ -79,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
         if (rigidBody.velocity.y == 0)
         {
             rigidBody.isKinematic = true;
+
             if (moveX != 0)
             {
                 nextPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z + (snapValue * -moveX));
@@ -98,8 +99,6 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(rigidBody.position, direction, out hit, checkDistance, maskCheck))
             {
-                if (hit.collider.GetComponent<MoveableObject>() != null) return;
-
                 //Ladder movement up
                 if (hit.collider.GetComponent<Ladder>() != null && moveableManager.holding == null)
                 {
@@ -111,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
 
                     return;
                 }
+
+                if (hit.collider.GetComponent<MoveableObject>() != null) return;
 
                 else
                 {
@@ -124,11 +125,11 @@ public class PlayerMovement : MonoBehaviour
                 //Ladder movement down
                 if (belowHit.collider.GetComponent<Ladder>() != null)
                 {
+                    Debug.Log("Ladder Below");
                     if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                     return;
                 }
             }
-
 
             RaycastHit genericHit;
             //Regular movement

@@ -2548,6 +2548,7 @@ GameObject:
   - component: {fileID: 1785727938}
   - component: {fileID: 1785727937}
   - component: {fileID: 1785727936}
+  - component: {fileID: 1785727941}
   - component: {fileID: 1785727940}
   m_Layer: 9
   m_Name: Ladder
@@ -2622,8 +2623,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785727935}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0.00000026822087}
-  m_LocalPosition: {x: 6, y: 10.52, z: 0}
-  m_LocalScale: {x: 1, y: 2.038106, z: 1}
+  m_LocalPosition: {x: 6, y: 10.763, z: 0}
+  m_LocalScale: {x: 1, y: 1.494816, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
@@ -2640,6 +2641,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30596be63dbcc2c4289fa9223c670daf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultPosition: {x: 0, y: 0, z: 0}
+  defaultRotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!54 &1785727941
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785727935}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1799745647
 GameObject:
   m_ObjectHideFlags: 0
