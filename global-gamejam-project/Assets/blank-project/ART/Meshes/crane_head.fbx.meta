@@ -9,6 +9,8 @@ ModelImporter:
     2100002: lambertglass
     2100004: lambertdark_metal
     2100006: lambertcememt
+    2100008: lambertyellow1
+    2100010: lambertcememt1
     2300000: //RootNode
     3300000: //RootNode
     4300000: polySurface13
