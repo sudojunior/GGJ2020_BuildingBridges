@@ -8,8 +8,12 @@ public class DialogueTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        TriggerDialogue();
-        Destroy(this.gameObject);
+        if (other.GetComponent<PlayerMovement>() != null)
+        {
+            TriggerDialogue();
+            Destroy(this.gameObject);
+        }
+        
     }
 
     public void TriggerDialogue()

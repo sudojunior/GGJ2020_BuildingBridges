@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private float checkDistance;
     [SerializeField]
     private float groundCheckDistance;
+    public float jumpGapDistance;
 
     [SerializeField]
     private float moveDelay;
@@ -151,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
             nextPosition.x += 1 * moveZ;
             nextPosition.z += 1 * moveX;
 
-            if (Physics.Raycast(nextPosition, -Vector3.up, 1f))
+            if (Physics.Raycast(nextPosition, -Vector3.up, jumpGapDistance))
             { 
                 if (moveCoroutine == null) moveCoroutine = StartCoroutine(MovePosition(nextPosition, moveDelay));
                 rotateCoroutine = StartCoroutine(AimPlayer(direction, rotateSpeed));

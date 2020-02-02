@@ -17,7 +17,7 @@ public class Objective : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         ObjectiveItem item = IsItemAnObjective(col.transform.gameObject);
-        if (item != null)
+        if (item != null && MoveableManager.Instance.holding == null)
         {
             MoveableObject moveableObject = col.GetComponent<MoveableObject>();
             col.transform.rotation = moveableObject.defaultRotation;
