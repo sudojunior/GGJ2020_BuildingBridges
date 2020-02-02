@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class MoveableManager : MonoBehaviour
 {
     // [SerializeField]
@@ -17,10 +17,12 @@ public class MoveableManager : MonoBehaviour
 
     private Coroutine rotateCoroutine;
 
+    private PlayerMovement playerMovement;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerMovement = this.GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -61,7 +63,7 @@ public class MoveableManager : MonoBehaviour
     void Pickup()
     {
         RaycastHit hit;
-        if(Physics.Raycast(gameObject.transform.position, transform.forward, out hit, 5f))
+        if(Physics.Raycast(gameObject.transform.position, transform.forward, out hit, 2f))
         {
             if (hit.collider.GetComponent<MoveableObject>() != null)
             {
@@ -78,8 +80,11 @@ public class MoveableManager : MonoBehaviour
     void Drop()
     {
         holding.GetComponent<Rigidbody>().isKinematic = false;
-        holding.transform.SetParent(container.transform);
+        
         holding.transform.position = transform.position + (transform.forward * 2);
+        holding.transform.position = playerMovement.RoundVector(holding.transform.position, playerMovement.snapValue);
+
+        holding.transform.SetParent(container.transform);
         holding = null;
     }
 

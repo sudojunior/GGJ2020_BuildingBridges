@@ -12,7 +12,7 @@ public class Ladder : MoveableObject
     }
 
     private void OnCollisionEnter(Collision col)
-    { 
-        rigidBody.isKinematic = true;        
+    {
+        if (col.transform.position.y < rigidBody.position.y) rigidBody.isKinematic = true;
     }
 }

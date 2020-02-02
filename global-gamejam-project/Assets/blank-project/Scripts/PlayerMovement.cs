@@ -11,8 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Position")]
     [SerializeField]
     private float movementSpeed;
-    [SerializeField]
-    private float snapValue;
+    public float snapValue;
     private Vector3 nextPosition;
     private Vector3 direction;
     [SerializeField]
@@ -199,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
         moveZ = Input.GetAxisRaw(moveZName);
     }
 
-    private Vector3 RoundVector(Vector3 vector, float snap)
+    public Vector3 RoundVector(Vector3 vector, float snap)
     {
         return new Vector3((vector.x / snap) * snap,
                            (vector.y / snap) * snap,
