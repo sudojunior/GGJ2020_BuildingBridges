@@ -2,9 +2,9 @@ name: Test, Build & Deploy
 
 on:
   push:
-    branches: [ actions-dev ]
+    branches: [ master ]
   pull_request:
-    branches: [ actions-dev ]
+    branches: [ master ]
 
 env:
   UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
