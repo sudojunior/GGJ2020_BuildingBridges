@@ -1,0 +1,112 @@
+name: Test, Build & Deploy
+
+on:
+  push:
+    branches: [ actions-dev ]
+  pull_request:
+    branches: [ actions-dev ]
+
+env:
+  UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+  UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+  UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+
+jobs:
+  test:
+    name: Test on ${{ matrix.BUILD_VERSION }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_version: [2018.4.2f1]
+        project_path: [global-gamejam-project]
+    steps:
+
+      # Initialize Test Environment
+      - uses: actions/checkout@v2
+        name: Checkout repository on ${{ github.ref }}
+        
+      - uses: actions/cache@v2.1.2
+        name: Cache for '${{ matrix.PROJECT_PATH }}/Library' as 'Library-${{ matrix.project_path }}-${{ matrix.build_version }}'
+        with:
+          path: ${{ matrix.project_path }}/Library
+          key: Library-${{ matrix.project_path }}-${{ matrix.build_version }}
+          restore-keys: |
+            Library-${{ matrix.project_path }}
+            Library
+      
+      # Run test protocol
+      - uses: webbertakken/unity-test-runner@v1.3
+        id: test_runner
+        with:
+          projectPath: ${{ matrix.project_path }}
+          unityVersion: ${{ matrix.unity_version }}
+      
+      # Upload as check run result
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Test results (${{ matrix.project_path }} on ${{ matrix.unity_verison }})
+          path: ${{ steps.test_runner.outputs.artifactsPath }}
+  
+  build:
+    needs: test
+    name: Build on ${{ matrix.build_version }} for ${{ matrix.build_target }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build_version: [2018.4.2f1]
+        build_target: [StandaloneWindows64, WebGL]
+        project_path: [global-gamejam-project]
+    
+    steps:
+      # Initialize Build Environment
+      - uses: actions/checkout@v2
+        name: Checkout repository on ${{ github.ref }}
+        
+      - uses: actions/cache@v2.1.2
+        name: Cache for '${{ matrix.PROJECT_PATH }}/Library' as 'Library-${{ matrix.project_path }}-${{ matrix.build_version }}-${{ matrix.build_target }}'
+        with:
+          path: ${{ matrix.project_path }}/Library
+          key: Library-${{ matrix.project_path }}-${{ matrix.build_version }}
+          restore-keys: |
+            Library-${{ matrix.project_path }}-${{ matrix.build_version }}
+            Library-${{ matrix.project_path }}
+            Library
+      
+      # Run build protocol
+      - uses: webbertakken/unity-builder@v0.10
+        id: build-result
+        with:
+          projectPath: ${{ matrix.project_path }}
+          unityVersion: ${{ matrix.build_version }}
+          targetPlatform: ${{ matrix.build_target }}
+      
+      # Upload as check run result
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build (${{ matrix.build_version }} for ${{ matrix.build_target }})
+          path: build
+      
+      # Initialize draft tag
+      - uses: actions/create-release@v1
+        id: create-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag-name: ${{ github.ref }}-${{ matrix.build_version }}-${{ matrix.build_target }}
+          release_name: Release ${{ github.ref }} on ${{ matrix.build_version }} for ${{ matrix.build_target }}
+          draft: true
+      
+      # Zip the build
+      - name: Create Build Zip
+        run: unzip build.zip -d build
+      
+      # Attach build.zip to the draft tag
+      - uses: actions/upload-release-asset@v1
+        name: Upload Asset (${{ matrix.build_version }} for ${{ matrix.build_target }})
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: build.zip
+          asset_name: build-${{ matrix.build_version }}-${{ matrix.build_target }}.zip
+          asset_content_type: application/zip
