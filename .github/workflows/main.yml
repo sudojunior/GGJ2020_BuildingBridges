@@ -39,12 +39,12 @@ jobs:
         id: test_runner
         with:
           projectPath: ${{ matrix.project_path }}
-          unityVersion: ${{ matrix.unity_version }}
+          unityVersion: ${{ matrix.build_version }}
       
       # Upload as check run result
       - uses: actions/upload-artifact@v1
         with:
-          name: Test results (${{ matrix.project_path }} on ${{ matrix.unity_verison }})
+          name: Test results (${{ matrix.project_path }} on ${{ matrix.build_version }})
           path: ${{ steps.test_runner.outputs.artifactsPath }}
   
   build:
@@ -66,7 +66,7 @@ jobs:
         name: Cache for '${{ matrix.PROJECT_PATH }}/Library' as 'Library-${{ matrix.project_path }}-${{ matrix.build_version }}-${{ matrix.build_target }}'
         with:
           path: ${{ matrix.project_path }}/Library
-          key: Library-${{ matrix.project_path }}-${{ matrix.build_version }}
+          key: Library-${{ matrix.project_path }}-${{ matrix.build_version }}-${{ matrix.build_target }}
           restore-keys: |
             Library-${{ matrix.project_path }}-${{ matrix.build_version }}
             Library-${{ matrix.project_path }}
@@ -86,27 +86,27 @@ jobs:
           name: Build (${{ matrix.build_version }} for ${{ matrix.build_target }})
           path: build
       
-      # Initialize draft tag
-      - uses: actions/create-release@v1
-        id: create-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag-name: ${{ github.ref }}-${{ matrix.build_version }}-${{ matrix.build_target }}
-          release_name: Release ${{ github.ref }} on ${{ matrix.build_version }} for ${{ matrix.build_target }}
-          draft: true
+      # # Initialize draft tag
+      # - uses: actions/create-release@v1
+      #   id: create-release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag-name: ${{ github.ref }}-${{ matrix.build_version }}-${{ matrix.build_target }}
+      #     release_name: Release ${{ github.ref }} on ${{ matrix.build_version }} for ${{ matrix.build_target }}
+      #     draft: true
       
-      # Zip the build
-      - name: Create Build Zip
-        run: unzip build.zip -d build
+      # # Zip the build
+      # - name: Create Build Zip
+      #   run: unzip build.zip -d build
       
-      # Attach build.zip to the draft tag
-      - uses: actions/upload-release-asset@v1
-        name: Upload Asset (${{ matrix.build_version }} for ${{ matrix.build_target }})
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: build.zip
-          asset_name: build-${{ matrix.build_version }}-${{ matrix.build_target }}.zip
-          asset_content_type: application/zip
+      # # Attach build.zip to the draft tag
+      # - uses: actions/upload-release-asset@v1
+      #   name: Upload Asset (${{ matrix.build_version }} for ${{ matrix.build_target }})
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create-release.outputs.upload_url }}
+      #     asset_path: build.zip
+      #     asset_name: build-${{ matrix.build_version }}-${{ matrix.build_target }}.zip
+      #     asset_content_type: application/zip
